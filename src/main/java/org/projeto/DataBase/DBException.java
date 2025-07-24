@@ -1,4 +1,4 @@
-package org.projeto.repository;
+package org.projeto.dataBase;
 
 public class DBException extends RuntimeException {
     public DBException(String msg) {

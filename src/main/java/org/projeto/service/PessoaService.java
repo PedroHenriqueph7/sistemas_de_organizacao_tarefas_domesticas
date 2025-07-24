@@ -13,6 +13,9 @@ public class PessoaService {
 
     public void cadastrarMoradores(Pessoa person){
         pessoaRepository.insert(person);
-        System.out.println("Insert Sucessed");
+    }
+    
+    public void removerMorador(Integer id){
+        pessoaRepository.deleteById(id);
     }
 }

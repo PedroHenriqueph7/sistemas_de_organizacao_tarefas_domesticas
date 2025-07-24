@@ -3,9 +3,9 @@ package org.projeto.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.projeto.dataBase.DBException;
 import org.projeto.factory.DaoFactory;
 import org.projeto.models.Pessoa;
-import org.projeto.repository.DBException;
 import org.projeto.service.PessoaService;
 
 /**
@@ -22,7 +22,6 @@ public class App
 
         } catch (IOException e) {
             throw new DBException(e.getMessage());
-        
         }
 
     }

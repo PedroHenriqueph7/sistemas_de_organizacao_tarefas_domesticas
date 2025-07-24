@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import org.projeto.DataBase.DB;
+import org.projeto.dataBase.DB;
+import org.projeto.dataBase.DBException;
 import org.projeto.models.Pessoa;
 
 public class PessoaRepository {
@@ -34,7 +35,7 @@ public class PessoaRepository {
                     ResultSet resultSet = preparedStatement.getGeneratedKeys();
                     if (resultSet.next()) {
                         int id = resultSet.getInt("id");
-                        person.setAge(id);
+                        person.setId(id);
                         System.out.println("One rows affected!");
                     }
                     DB.closeResultSet(resultSet);
@@ -49,7 +50,26 @@ public class PessoaRepository {
         }
     }
 
-    public void delete(){
+    public void deleteById(Integer id){
+        PreparedStatement preparedStatement = null;
 
+        try {
+            preparedStatement = connection.prepareStatement(
+                "DELETE FROM pessoa"
+                + "WHERE id = (?)"
+            );
+
+            preparedStatement.setInt(1, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("One rows affected!");
+            } else {
+                System.out.println("No rows affected!");
+            }
+        } catch (Exception e) {
+            throw new DBException(e.getMessage());
+        }
     }
 }

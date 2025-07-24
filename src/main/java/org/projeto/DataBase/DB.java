@@ -1,4 +1,4 @@
-package org.projeto.DataBase;
+package org.projeto.dataBase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +9,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import org.projeto.repository.DBException;
-
 public class DB {
     private static final String CONFIG = "/config.properties";
     private static Connection connection = null;
 
+    private DB(){}
+    
     public static Connection getConnection() throws IOException, SQLException {
             if(connection == null || connection.isClosed()){
                 
