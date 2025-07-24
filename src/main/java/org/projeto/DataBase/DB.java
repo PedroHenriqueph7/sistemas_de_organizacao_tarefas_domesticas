@@ -1,4 +1,4 @@
-package org.projeto.repository;
+package org.projeto.DataBase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+
+import org.projeto.repository.DBException;
 
 public class DB {
     private static final String CONFIG = "/config.properties";

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.projeto.DataBase.DB;
 import org.projeto.models.Pessoa;
 
 public class PessoaRepository {
@@ -34,6 +35,7 @@ public class PessoaRepository {
                     if (resultSet.next()) {
                         int id = resultSet.getInt("id");
                         person.setAge(id);
+                        System.out.println("One rows affected!");
                     }
                     DB.closeResultSet(resultSet);
                 } else {
