@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+
 public class DB {
     private static final String CONFIG = "/config.properties";
     private static Connection connection = null;
