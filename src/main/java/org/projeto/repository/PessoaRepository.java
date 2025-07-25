@@ -70,6 +70,8 @@ public class PessoaRepository {
             }
         } catch (Exception e) {
             throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
         }
     }
 }
