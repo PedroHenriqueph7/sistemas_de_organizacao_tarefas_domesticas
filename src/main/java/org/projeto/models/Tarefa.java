@@ -103,6 +103,6 @@ public class Tarefa {
     @Override
     public String toString() {
         return "Tarefa [id=" + id + ", task_name=" + task_name + ", priority=" + priority + ", status=" + status
-                + ", person=" + person + ", category=" + category + "]";
+                + ", responsible=" + person + ", category=" + category + "]";
     }
 }
