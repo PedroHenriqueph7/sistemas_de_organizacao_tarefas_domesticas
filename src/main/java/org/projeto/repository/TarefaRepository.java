@@ -3,11 +3,20 @@ package org.projeto.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.projeto.dataBase.DB;
 import org.projeto.dataBase.DBException;
+import org.projeto.models.CategoriaTarefa;
+import org.projeto.models.Pessoa;
 import org.projeto.models.Tarefa;
+import org.projeto.models.enums.PrioridadeTarefa;
+import org.projeto.models.enums.StatusTarefa;
 
 public class TarefaRepository {
     private Connection connection;
@@ -53,7 +62,43 @@ public class TarefaRepository {
         }
     }
 
-    
+    public List<Tarefa> findAll() {
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(
+                "SELECT t.*, p.name, ct.category_name FROM tarefa t "
+                   +"INNER JOIN pessoa p ON t.responsible_personnel_id = p.id "
+                   + "INNER JOIN categoria_tarefa ct ON t.category_id = ct.id");
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Tarefa> tasks = new ArrayList<>();
+            Map<Integer, Pessoa> responsible = new HashMap<>();
+            Map<Integer, CategoriaTarefa> category = new HashMap<>();
+
+            while (resultSet.next()) {
+                CategoriaTarefa categoryTask = category.get(resultSet.getInt("category_id"));
+                Pessoa responsiblePersonnel = responsible.get(resultSet.getInt("responsible_personnel_id"));
+
+                if (categoryTask == null) {
+                    CategoriaTarefa instantieteCategory = instantiatingCategory(resultSet);
+                    category.put(resultSet.getInt("category_id"), instantieteCategory);
+                }
+
+                if (responsiblePersonnel == null) {
+                    Pessoa person = instantiatingPerson(resultSet);
+                    responsible.put(resultSet.getInt("responsible_personnel_id"), person);
+                }
+
+                Tarefa task = instantiatingTask(resultSet, responsiblePersonnel, categoryTask);
+                tasks.add(task);
+            }
+
+            return tasks;
+        } catch (Exception e) {
+            throw new DBException(e.getMessage());
+        }
+    }
 
     public void deleteById(Integer id) {
         PreparedStatement preparedStatement = null;
@@ -78,5 +123,31 @@ public class TarefaRepository {
         } finally {
             DB.closeStatement(preparedStatement);
         }
+    }
+
+    public Pessoa instantiatingPerson(ResultSet resultSet) throws SQLException {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setId(resultSet.getInt("responsible_personnel_id"));
+        pessoa.setName(resultSet.getString("name"));
+
+        return pessoa;
+    }
+
+    public CategoriaTarefa instantiatingCategory(ResultSet resultSet) throws SQLException {
+        CategoriaTarefa categoriaTarefa = new CategoriaTarefa();
+        categoriaTarefa.setId(resultSet.getInt("category_id"));
+        categoriaTarefa.setCategory_name(resultSet.getString("category_name"));
+
+        return categoriaTarefa;
+    }
+    public Tarefa instantiatingTask(ResultSet resultSet, Pessoa pessoa, CategoriaTarefa categoriaTarefa) throws SQLException{
+        Tarefa tarefa = new Tarefa();
+        tarefa.setId(resultSet.getInt("id"));
+        tarefa.setTask_name(resultSet.getString("task_name"));
+        tarefa.setPriority(PrioridadeTarefa.valueOf(resultSet.getString("priority")));
+        tarefa.setStatus(StatusTarefa.valueOf(resultSet.getString("status")));
+        tarefa.setCategory(categoriaTarefa);
+        tarefa.setPerson(pessoa);
+        return tarefa;
     }
 }
