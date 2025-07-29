@@ -22,8 +22,8 @@ public class CategoriaTarefaRepository {
         try {
             preparedStatement = connection.prepareStatement(
                 "INSERT INTO categoria_tarefa "
-                + "(name) "
-                + "VALUES (?)", Statement.RETURN_GENERATED_KEYS
+                + "(category_name) "
+                + "VALUES (?) ", Statement.RETURN_GENERATED_KEYS
                 );
 
                 preparedStatement.setString(1, categoriaTarefa.getCategory_name());
@@ -55,7 +55,7 @@ public class CategoriaTarefaRepository {
 
         try {
             preparedStatement = connection.prepareStatement(
-                "DELETE FROM categoria_tarefa"
+                "DELETE FROM categoria_tarefa "
                 + "WHERE id = (?)"
             );
 

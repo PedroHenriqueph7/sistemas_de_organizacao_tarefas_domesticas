@@ -40,7 +40,7 @@ public class TarefaRepository {
             preparedStatement.setString(2, task.getPriority().name());
             preparedStatement.setString(3, task.getStatus().name());
             preparedStatement.setInt(4, task.getPerson().getId());
-            preparedStatement.setInt(4, task.getCategory().getId());
+            preparedStatement.setInt(5, task.getCategory().getId());
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -77,17 +77,19 @@ public class TarefaRepository {
             Map<Integer, CategoriaTarefa> category = new HashMap<>();
 
             while (resultSet.next()) {
-                CategoriaTarefa categoryTask = category.get(resultSet.getInt("category_id"));
-                Pessoa responsiblePersonnel = responsible.get(resultSet.getInt("responsible_personnel_id"));
+                Integer categoryId = resultSet.getInt("category_id");
+                Integer personId = resultSet.getInt("responsible_personnel_id");
 
+                CategoriaTarefa categoryTask = category.get(categoryId);
                 if (categoryTask == null) {
-                    CategoriaTarefa instantieteCategory = instantiatingCategory(resultSet);
-                    category.put(resultSet.getInt("category_id"), instantieteCategory);
+                    categoryTask = instantiatingCategory(resultSet);
+                    category.put(categoryId, categoryTask);
                 }
 
+                Pessoa responsiblePersonnel = responsible.get(personId);
                 if (responsiblePersonnel == null) {
-                    Pessoa person = instantiatingPerson(resultSet);
-                    responsible.put(resultSet.getInt("responsible_personnel_id"), person);
+                    responsiblePersonnel = instantiatingPerson(resultSet);
+                    responsible.put(personId, responsiblePersonnel);
                 }
 
                 Tarefa task = instantiatingTask(resultSet, responsiblePersonnel, categoryTask);

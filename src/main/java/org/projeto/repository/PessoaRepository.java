@@ -55,7 +55,7 @@ public class PessoaRepository {
 
         try {
             preparedStatement = connection.prepareStatement(
-                "DELETE FROM pessoa"
+                "DELETE FROM pessoa "
                 + "WHERE id = (?)"
             );
 

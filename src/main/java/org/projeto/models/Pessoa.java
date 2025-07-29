@@ -12,6 +12,10 @@ public class Pessoa {
         this.age = age;
     }
 
+    public Pessoa(Integer id){
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

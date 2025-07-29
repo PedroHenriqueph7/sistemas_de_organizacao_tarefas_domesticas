@@ -10,6 +10,10 @@ public class CategoriaTarefa {
         this.category_name = category_name;
     }
 
+    public CategoriaTarefa(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
