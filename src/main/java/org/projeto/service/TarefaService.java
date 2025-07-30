@@ -1,5 +1,6 @@
 package org.projeto.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -31,6 +32,13 @@ public class TarefaService {
         Predicate<Tarefa> filtroTarefasPendentes = p -> p.getStatus().name().equalsIgnoreCase("PENDENTE");
         List<Tarefa> tarefasPendentes = tarefasList.stream().filter(filtroTarefasPendentes).toList();
         return tarefasPendentes;
+    }
+
+    public List<Tarefa> listarTarefasPorPrioridade() {
+        List<Tarefa> listTarefas = tarefaRepository.findAll();
+
+        listTarefas.sort(new TarefaComparator());
+        return listTarefas;
     }
 
     public void removerTarefa(Integer id) {

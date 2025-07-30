@@ -35,14 +35,16 @@ public class App
           
           TarefaService tarefaService = new TarefaService(DaoFactory.createTarefaRepository());
 
-          //tarefaService.cadastrarTarefa(new Tarefa("limpar as janelas", PrioridadeTarefa.MEDIO, StatusTarefa.CONCLUIDA, new Pessoa(3), new CategoriaTarefa(1 )));
-          //tarefaService.cadastrarTarefa(new Tarefa("Passear com o Dog", PrioridadeTarefa.ALTO, StatusTarefa.CONCLUIDA, new Pessoa(4), new CategoriaTarefa(2 )));
+        //   tarefaService.cadastrarTarefa(new Tarefa("Passar pano nos Móveis", PrioridadeTarefa.BAIXO, StatusTarefa.CONCLUIDA, new Pessoa(3), new CategoriaTarefa(1 )));
+        //   tarefaService.cadastrarTarefa(new Tarefa("Lavar roupas azuis", PrioridadeTarefa.BAIXO, StatusTarefa.PENDENTE, new Pessoa(4), new CategoriaTarefa(2 )));
           //List<Tarefa> listTarefasConcluidas = tarefaService.filtrarTarefasPorStatusConcluido();
 
           //System.out.println(listTarefasConcluidas);
 
-          List<Tarefa> listTarefasPendentes = tarefaService.filtrarTarefasPorStatusPendente();
-          System.out.println(listTarefasPendentes);
+        //   List<Tarefa> listTarefasPendentes = tarefaService.filtrarTarefasPorStatusPendente();
+        //   System.out.println(listTarefasPendentes);
+        List<Tarefa> tarefasOrdenadas = tarefaService.listarTarefasPorPrioridade();
+        System.out.println(tarefasOrdenadas);
         } catch (IOException e) {
             throw new DBException(e.getMessage());
         }
