@@ -3,6 +3,7 @@ package org.projeto.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.projeto.dataBase.DBException;
 import org.projeto.factory.DaoFactory;
@@ -43,8 +44,13 @@ public class App
 
         //   List<Tarefa> listTarefasPendentes = tarefaService.filtrarTarefasPorStatusPendente();
         //   System.out.println(listTarefasPendentes);
-        List<Tarefa> tarefasOrdenadas = tarefaService.listarTarefasPorPrioridade();
-        System.out.println(tarefasOrdenadas);
+        // List<Tarefa> tarefasOrdenadas = tarefaService.listarTarefasPorPrioridade();
+        // System.out.println(tarefasOrdenadas);
+
+        Map<Pessoa, Long> taskMap = tarefaService.listarTotalTarefasConcluidasPorPessoa();
+        System.out.println(taskMap);
+
+        
         } catch (IOException e) {
             throw new DBException(e.getMessage());
         }

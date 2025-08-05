@@ -1,10 +1,17 @@
 package org.projeto.service;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.projeto.models.Pessoa;
 import org.projeto.models.Tarefa;
+import org.projeto.models.enums.StatusTarefa;
 import org.projeto.repository.TarefaRepository;
 
 public class TarefaService {
@@ -39,6 +46,15 @@ public class TarefaService {
 
         listTarefas.sort(new TarefaComparator());
         return listTarefas;
+    }
+
+    public Map<Pessoa, Long> listarTotalTarefasConcluidasPorPessoa() {
+        List<Tarefa> listTarefas = tarefaRepository.findAll();
+
+        Map<Pessoa, Long> quantidadeTarefasConcluidaPorPessoa = listTarefas.stream()
+                                                                            .filter(p -> p.getStatus().equals(StatusTarefa.CONCLUIDA))
+                                                                             .collect(Collectors.groupingBy(Tarefa::getPerson, Collectors.counting()));
+        return quantidadeTarefasConcluidaPorPessoa;
     }
 
     public void removerTarefa(Integer id) {
