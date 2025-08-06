@@ -57,6 +57,10 @@ public class TarefaService {
         return quantidadeTarefasConcluidaPorPessoa;
     }
 
+    public void associacaoResponsavelATarefa(Pessoa pessoa, String taskName) {
+        tarefaRepository.update(pessoa, taskName);
+    }
+    
     public void removerTarefa(Integer id) {
         tarefaRepository.deleteById(id);
     }

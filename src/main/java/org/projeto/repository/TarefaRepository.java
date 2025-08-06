@@ -102,6 +102,35 @@ public class TarefaRepository {
         }
     }
 
+    public void update(Pessoa pessoa, String taskName) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                "UPDATE tarefa "
+                +"SET responsible_personnel_id = (?) "
+                +"WHERE task_name = (?) "
+            );
+
+            preparedStatement.setInt(1, pessoa.getId());
+            preparedStatement.setString(2, taskName);
+
+            boolean verificadorPessoa = verificarPessoaNoBancoDados(pessoa.getId());
+
+            if (verificadorPessoa == false) {
+                throw new DBException("Pessoa não encontrada na tabela!");
+            } else {
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("One rows Affected!!");
+                }
+            }
+            
+        } catch (Exception e) {
+            throw new DBException(e.getMessage());
+        }
+    }
+
     public void deleteById(Integer id) {
         PreparedStatement preparedStatement = null;
 
@@ -152,4 +181,32 @@ public class TarefaRepository {
         tarefa.setPerson(pessoa);
         return tarefa;
     }
+
+    public Boolean verificarPessoaNoBancoDados(Integer id) {
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                "SELECT FROM pessoa "
+                   +"WHERE id = (?) "
+            );
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Pessoa person = instantiatingPerson(resultSet);
+                if (!person.equals(null)) {
+                    return true;
+                }
+            }
+            return false;
+
+        } catch (Exception e) {
+             throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+        }
+    }
+       
 }
