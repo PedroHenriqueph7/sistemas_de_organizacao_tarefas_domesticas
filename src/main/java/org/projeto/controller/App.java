@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.projeto.dataBase.DB;
 import org.projeto.dataBase.DBException;
 import org.projeto.factory.DaoFactory;
 import org.projeto.models.CategoriaTarefa;
@@ -12,6 +13,7 @@ import org.projeto.models.Pessoa;
 import org.projeto.models.Tarefa;
 import org.projeto.models.enums.PrioridadeTarefa;
 import org.projeto.models.enums.StatusTarefa;
+import org.projeto.repository.TarefaRepository;
 import org.projeto.service.CategoriaTarefaService;
 import org.projeto.service.PessoaService;
 import org.projeto.service.TarefaService;
@@ -47,9 +49,11 @@ public class App
         // List<Tarefa> tarefasOrdenadas = tarefaService.listarTarefasPorPrioridade();
         // System.out.println(tarefasOrdenadas);
 
-        Map<Pessoa, Long> taskMap = tarefaService.listarTotalTarefasConcluidasPorPessoa();
-        System.out.println(taskMap);
+        // Map<Pessoa, Long> taskMap = tarefaService.listarTotalTarefasConcluidasPorPessoa();
+        // System.out.println(taskMap);
 
+        tarefaService.associacaoResponsavelATarefa(6
+        , "Lavar roupas azuis");
         
         } catch (IOException e) {
             throw new DBException(e.getMessage());

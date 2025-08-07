@@ -102,7 +102,7 @@ public class TarefaRepository {
         }
     }
 
-    public void update(Pessoa pessoa, String taskName) {
+    public void updateResponsible(Integer id, String taskName) {
         PreparedStatement preparedStatement = null;
 
         try {
@@ -112,13 +112,13 @@ public class TarefaRepository {
                 +"WHERE task_name = (?) "
             );
 
-            preparedStatement.setInt(1, pessoa.getId());
+            preparedStatement.setInt(1, id);
             preparedStatement.setString(2, taskName);
 
-            boolean verificadorPessoa = verificarPessoaNoBancoDados(pessoa.getId());
+            boolean verificadorPessoa = verificarPessoaNoBancoDados(id);
 
             if (verificadorPessoa == false) {
-                throw new DBException("Pessoa não encontrada na tabela!");
+                System.out.println("Pessoa não encontrada na tabela!");
             } else {
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected > 0) {
@@ -188,19 +188,14 @@ public class TarefaRepository {
 
         try {
             preparedStatement = connection.prepareStatement(
-                "SELECT FROM pessoa "
+                "SELECT 1 FROM pessoa "
                    +"WHERE id = (?) "
             );
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Pessoa person = instantiatingPerson(resultSet);
-                if (!person.equals(null)) {
-                    return true;
-                }
-            }
-            return false;
+          
+            return resultSet.next();
 
         } catch (Exception e) {
              throw new DBException(e.getMessage());
