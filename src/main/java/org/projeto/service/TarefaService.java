@@ -60,6 +60,11 @@ public class TarefaService {
     public void associacaoResponsavelATarefa(Integer id, String taskName) {
         tarefaRepository.updateResponsible(id, taskName);
     }
+
+    public void marcarTarefaComoConcluida(Integer id) {
+        StatusTarefa statusTarefa = null;
+        tarefaRepository.updateStatusTarefa(id, statusTarefa.CONCLUIDA);
+    }
     
     public void removerTarefa(Integer id) {
         tarefaRepository.deleteById(id);

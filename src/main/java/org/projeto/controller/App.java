@@ -28,9 +28,9 @@ public class App
     {
         try {
           PessoaService pessoaService = new PessoaService(DaoFactory.createPessoaRepository());
-          //pessoaService.cadastrarMoradores(new Pessoa("Name4", 21));
+          //pessoaService.cadastrarMoradores(new Pessoa("MY Name", 21));
           //pessoaService.removerMorador(5);
-          CategoriaTarefaService categoriaTarefaService = new CategoriaTarefaService(DaoFactory.createCategoriaTarefaRepository());
+          //CategoriaTarefaService categoriaTarefaService = new CategoriaTarefaService(DaoFactory.createCategoriaTarefaRepository());
           // categoriaTarefaService.cadastrarCategoriasTarefas(new CategoriaTarefa("Domesticas"));
           // categoriaTarefaService.cadastrarCategoriasTarefas(new CategoriaTarefa("Serviços"));
           // categoriaTarefaService.cadastrarCategoriasTarefas(new CategoriaTarefa("tarefas"));
@@ -38,7 +38,7 @@ public class App
           
           TarefaService tarefaService = new TarefaService(DaoFactory.createTarefaRepository());
 
-        //   tarefaService.cadastrarTarefa(new Tarefa("Passar pano nos Móveis", PrioridadeTarefa.BAIXO, StatusTarefa.CONCLUIDA, new Pessoa(3), new CategoriaTarefa(1 )));
+        //tarefaService.cadastrarTarefa(new Tarefa("Cromprar Agua Mineral", PrioridadeTarefa.ALTO, StatusTarefa.PENDENTE, new Pessoa(3), new CategoriaTarefa(1 )));
         //   tarefaService.cadastrarTarefa(new Tarefa("Lavar roupas azuis", PrioridadeTarefa.BAIXO, StatusTarefa.PENDENTE, new Pessoa(4), new CategoriaTarefa(2 )));
           //List<Tarefa> listTarefasConcluidas = tarefaService.filtrarTarefasPorStatusConcluido();
 
@@ -52,8 +52,8 @@ public class App
         // Map<Pessoa, Long> taskMap = tarefaService.listarTotalTarefasConcluidasPorPessoa();
         // System.out.println(taskMap);
 
-        tarefaService.associacaoResponsavelATarefa(6
-        , "Lavar roupas azuis");
+        tarefaService.associacaoResponsavelATarefa(8, "Cromprar Agua Mineral");
+        //tarefaService.marcarTarefaComoConcluida(19);
         
         } catch (IOException e) {
             throw new DBException(e.getMessage());

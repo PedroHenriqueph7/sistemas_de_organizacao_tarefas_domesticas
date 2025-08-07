@@ -27,7 +27,7 @@ public class TarefaRepository {
 
     public void insert(Tarefa task){
         PreparedStatement preparedStatement = null;
-
+        ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(
                 "INSERT INTO tarefa "
@@ -45,11 +45,12 @@ public class TarefaRepository {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
-                ResultSet resultSet = preparedStatement.getGeneratedKeys();
+                resultSet = preparedStatement.getGeneratedKeys();
                     if (resultSet.next()) {
                         int id = resultSet.getInt("id");
                         task.setId(id);
                     }
+                    
                 System.out.println("One rows affected");
             } else {
                 System.out.println("No rows affected");
@@ -58,6 +59,7 @@ public class TarefaRepository {
         } catch (Exception e) {
             throw new DBException(e.getMessage());
         } finally {
+            DB.closeResultSet(resultSet);
             DB.closeStatement(preparedStatement);
         }
     }
@@ -65,12 +67,13 @@ public class TarefaRepository {
     public List<Tarefa> findAll() {
 
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         try {
             preparedStatement = connection.prepareStatement(
                 "SELECT t.*, p.name, ct.category_name FROM tarefa t "
                    +"INNER JOIN pessoa p ON t.responsible_personnel_id = p.id "
                    + "INNER JOIN categoria_tarefa ct ON t.category_id = ct.id");
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             List<Tarefa> tasks = new ArrayList<>();
             Map<Integer, Pessoa> responsible = new HashMap<>();
@@ -99,6 +102,9 @@ public class TarefaRepository {
             return tasks;
         } catch (Exception e) {
             throw new DBException(e.getMessage());
+        } finally {
+            DB.closeResultSet(resultSet);
+            DB.closeStatement(preparedStatement);
         }
     }
 
@@ -128,6 +134,36 @@ public class TarefaRepository {
             
         } catch (Exception e) {
             throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
+        }
+    }
+
+    public void updateStatusTarefa(Integer id, StatusTarefa statusTarefa){
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                "UPDATE tarefa "
+                +"SET status = ? "
+                + "WHERE id = ? "   
+            );
+
+            preparedStatement.setString(1, statusTarefa.name());
+            preparedStatement.setInt(2, id);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("One row Affected!");
+            } else {
+                System.out.println("No changes id not found!");
+            }
+            
+        } catch (Exception e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(preparedStatement);
         }
     }
 
@@ -185,6 +221,7 @@ public class TarefaRepository {
     public Boolean verificarPessoaNoBancoDados(Integer id) {
 
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
             preparedStatement = connection.prepareStatement(
@@ -193,13 +230,14 @@ public class TarefaRepository {
             );
             preparedStatement.setInt(1, id);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
           
             return resultSet.next();
 
         } catch (Exception e) {
              throw new DBException(e.getMessage());
         } finally {
+            DB.closeResultSet(resultSet);
             DB.closeStatement(preparedStatement);
         }
     }
