@@ -152,6 +152,7 @@ public class TarefaRepository {
             preparedStatement.setString(1, statusTarefa.name());
             preparedStatement.setInt(2, id);
 
+            
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -236,6 +237,46 @@ public class TarefaRepository {
 
         } catch (Exception e) {
              throw new DBException(e.getMessage());
+        } finally {
+            DB.closeResultSet(resultSet);
+            DB.closeStatement(preparedStatement);
+        }
+    }
+
+    public Boolean verificarSeTarefaEstaConcluida(Integer id) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                "SELECT status FROM tarefa "
+                +"WHERE id =  ? "
+                );
+
+                preparedStatement.setInt(1, id);
+
+                resultSet = preparedStatement.executeQuery();
+                String status = "CONCLUIDA";
+                int verificarConclusao = 0;
+                if (resultSet.next()) {
+                    status = resultSet.getString("status");  
+                    verificarConclusao++;
+                } else {
+                    System.out.println("Tarefa não encontrada na tabela!");
+                }
+
+                if (status.equalsIgnoreCase("CONCLUIDA")) {
+                    if (verificarConclusao != 0) {
+                        System.out.println("Tarefa ja esta Concluida!");
+                    }
+                        return true;
+                } else {
+                        return false;
+                }
+            
+
+        } catch (Exception e) {
+            throw new DBException(e.getMessage());
         } finally {
             DB.closeResultSet(resultSet);
             DB.closeStatement(preparedStatement);

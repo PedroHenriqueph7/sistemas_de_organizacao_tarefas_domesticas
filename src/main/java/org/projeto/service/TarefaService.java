@@ -63,7 +63,12 @@ public class TarefaService {
 
     public void marcarTarefaComoConcluida(Integer id) {
         StatusTarefa statusTarefa = null;
-        tarefaRepository.updateStatusTarefa(id, statusTarefa.CONCLUIDA);
+        boolean jaConcluida = tarefaRepository.verificarSeTarefaEstaConcluida(id);
+
+        if (jaConcluida == false) {
+             tarefaRepository.updateStatusTarefa(id, statusTarefa.CONCLUIDA);
+        } 
+       
     }
     
     public void removerTarefa(Integer id) {
