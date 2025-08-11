@@ -36,7 +36,10 @@ public class DB {
 
     public static void closeConnection() {
         try {
-            connection.close();
+            if (connection != null) {
+                 connection.close();
+            }
+           
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
         }
@@ -44,7 +47,10 @@ public class DB {
 
     public static void closeStatement(Statement statement) {
         try {
-            statement.close();
+            if (statement != null) {
+                statement.close();
+            }
+            
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
         }
@@ -52,7 +58,10 @@ public class DB {
 
     public static void closeResultSet(ResultSet resultSet) {
         try {
-            resultSet.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
         }
