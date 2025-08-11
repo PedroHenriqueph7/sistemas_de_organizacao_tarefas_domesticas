@@ -52,9 +52,12 @@ public class App
         // Map<Pessoa, Long> taskMap = tarefaService.listarTotalTarefasConcluidasPorPessoa();
         // System.out.println(taskMap);
 
-        tarefaService.associacaoResponsavelATarefa(8, "Cromprar Agua Mineral");
-        //tarefaService.marcarTarefaComoConcluida(19);
+        // tarefaService.associacaoResponsavelATarefa(11, "Cromprar Agua Mineral");
+        // tarefaService.marcarTarefaComoConcluida(19);
         
+        // tarefaService.marcarTarefaComoConcluida(2);
+
+
         } catch (IOException e) {
             throw new DBException(e.getMessage());
         }

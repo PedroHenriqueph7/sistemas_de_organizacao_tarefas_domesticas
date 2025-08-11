@@ -58,14 +58,20 @@ public class TarefaService {
     }
 
     public void associacaoResponsavelATarefa(Integer id, String taskName) {
-        tarefaRepository.updateResponsible(id, taskName);
+        boolean responsavelExiste = tarefaRepository.verificarPessoaNoBancoDados(id);
+
+        if (responsavelExiste) {
+            tarefaRepository.updateResponsible(id, taskName);
+        } else {
+            System.out.println("Responsavel não encontrado!");
+        } 
     }
 
     public void marcarTarefaComoConcluida(Integer id) {
         StatusTarefa statusTarefa = null;
         boolean jaConcluida = tarefaRepository.verificarSeTarefaEstaConcluida(id);
 
-        if (jaConcluida == false) {
+        if (!jaConcluida) {
              tarefaRepository.updateStatusTarefa(id, statusTarefa.CONCLUIDA);
         } 
        

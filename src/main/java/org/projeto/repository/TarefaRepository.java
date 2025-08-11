@@ -121,16 +121,10 @@ public class TarefaRepository {
             preparedStatement.setInt(1, id);
             preparedStatement.setString(2, taskName);
 
-            boolean verificadorPessoa = verificarPessoaNoBancoDados(id);
-
-            if (verificadorPessoa == false) {
-                System.out.println("Pessoa não encontrada na tabela!");
-            } else {
                 int rowsAffected = preparedStatement.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("One rows Affected!!");
                 }
-            }
             
         } catch (Exception e) {
             throw new DBException(e.getMessage());
@@ -157,8 +151,6 @@ public class TarefaRepository {
 
             if (rowsAffected > 0) {
                 System.out.println("One row Affected!");
-            } else {
-                System.out.println("No changes id not found!");
             }
             
         } catch (Exception e) {
