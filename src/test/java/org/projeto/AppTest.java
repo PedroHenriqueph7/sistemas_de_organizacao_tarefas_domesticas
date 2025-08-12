@@ -7,12 +7,5 @@ import org.junit.jupiter.api.Test;
  */
 
 public class AppTest {
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void dividirDoisNumeros(int x, int y) {
-       
-    }
    
 }

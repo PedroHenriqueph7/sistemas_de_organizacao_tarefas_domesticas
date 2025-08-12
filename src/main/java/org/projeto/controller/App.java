@@ -29,7 +29,7 @@ public class App
         try {
           PessoaService pessoaService = new PessoaService(DaoFactory.createPessoaRepository());
           //pessoaService.cadastrarMoradores(new Pessoa("MY Name", 21));
-          //pessoaService.removerMorador(5);
+          // pessoaService.removerMorador(10);
           //CategoriaTarefaService categoriaTarefaService = new CategoriaTarefaService(DaoFactory.createCategoriaTarefaRepository());
           // categoriaTarefaService.cadastrarCategoriasTarefas(new CategoriaTarefa("Domesticas"));
           // categoriaTarefaService.cadastrarCategoriasTarefas(new CategoriaTarefa("Serviços"));
